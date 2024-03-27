@@ -22,6 +22,7 @@ final class Logger {
         self.request = request
 
         self.start = Date()
+        print("-------------------------------------------------------")
         print("[\(currentTime())][ZComNet] - Logging Start")
 
         logBasic()
@@ -41,6 +42,7 @@ final class Logger {
         self.end = Date()
         print("[\(currentTime())][ZComNet][Call Duration]: \(getCallTime())")
         print("[\(currentTime())][ZComNet] - Logging End")
+        print("-------------------------------------------------------")
     }
 
     // MARK: - Private Helpers
