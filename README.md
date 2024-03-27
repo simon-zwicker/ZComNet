@@ -1,6 +1,6 @@
 # ZComNet
 
-Simple lightweight Framework for Swift REST API calls async/await
+Simple lightweight Library for Swift REST API calls async/await
 
 | Minimum Target |    OS      |
 | -------------- | --------- |
