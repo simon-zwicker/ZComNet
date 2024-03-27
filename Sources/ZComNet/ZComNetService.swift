@@ -25,9 +25,11 @@ final class ZComNetService {
         self.components = components
     }
 
-    func request<T: Codable>(_ endpoint: Endpoint, error: Codable.Type) async -> Result<T, Error> {
+    func request<T: Codable>(_ endpoint: Endpoint, error: Codable.Type, image: RequestImage? = nil) async -> Result<T, Error> {
 
-        guard let request = try? await createRequest(for: endpoint) else { return .failure(ErrorType.invalidUrl) }
+        guard let request = try? await createRequest(for: endpoint, image: image) else {
+            return .failure(ErrorType.invalidUrl)
+        }
         let session = URLSession.shared
 
         do {
@@ -58,13 +60,12 @@ final class ZComNetService {
             return .failure(ErrorType.unknown)
         }
     }
-
 }
 
 // MARK: - Extension
 extension ZComNetService {
 
-    private func createRequest(for endpoint: Endpoint) async throws -> URLRequest {
+    private func createRequest(for endpoint: Endpoint, image: RequestImage? = nil) async throws -> URLRequest {
         /// Create Request Object
         guard let url = try? await getUrl(for: endpoint) else { throw ErrorType.invalidUrl }
         var request = URLRequest(url: url)
@@ -72,6 +73,8 @@ extension ZComNetService {
         /// Request Body
         if endpoint.encoding == .json, endpoint.parameters.isNotEmpty {
             request.httpBody = encodeJson(params: endpoint.parameters)
+        } else if endpoint.encoding == .image, let image {
+            request.httpBody = encodeImage(image)
         }
 
         /// Request Method & Headers
@@ -106,5 +109,29 @@ extension ZComNetService {
 
     private func encodeJson(params: [String: Any]) -> Data? {
         return try? JSONSerialization.data(withJSONObject: params, options: [])
+    }
+
+    private func encodeImage(_ image: RequestImage) -> Data {
+        var fullData: Data = .init()
+
+        if let data = ImageEncoder.boundary(image.boundary).data {
+            fullData.append(data)
+        }
+
+        if let data = ImageEncoder.contentDisposition(params: image.parameter, filename: image.fileName).data {
+            fullData.append(data)
+        }
+
+        if let data = ImageEncoder.contentType("image/\(image.type.rawValue)").data {
+            fullData.append(data)
+        }
+
+        fullData.append(image.data)
+
+        if let data = ImageEncoder.boundary(image.boundary).data {
+            fullData.append(data)
+        }
+
+        return fullData
     }
 }

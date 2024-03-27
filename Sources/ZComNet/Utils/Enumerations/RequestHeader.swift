@@ -9,17 +9,17 @@ public enum RequestHeader: Equatable {
     case cookie
     case contentJson
     case authBearer(String)
-//    case formData(String)
-//    case encoding
+    case formData(String)
+    case encoding
 }
 
 extension RequestHeader {
     var key: String {
         switch self {
         case .cookie: "Cookie"
-        case .contentJson: "Content-Type"
+        case .contentJson, .formData: "Content-Type"
         case .authBearer: "Authorization"
-//        case .encoding: "Content-Transfer-Encoding"
+        case .encoding: "Content-Transfer-Encoding"
         }
     }
 
@@ -27,8 +27,8 @@ extension RequestHeader {
         switch self {
         case .contentJson: "application/json"
         case .authBearer(let authToken): "Bearer \(authToken)"
-//        case .formData(let uuid): "multipart/form-data; boundary=\(uuid)"
-//        case .encoding: "base64"
+        case .formData(let uuid): "multipart/form-data; boundary=\(uuid)"
+        case .encoding: "base64"
         default: ""
         }
     }
