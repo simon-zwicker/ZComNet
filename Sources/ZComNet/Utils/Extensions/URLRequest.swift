@@ -14,7 +14,7 @@ extension URLRequest {
         var command = ["curl \"\(url.absoluteString)\""]
 
         if let httpMethod, httpMethod != RequestMethod.get.rawValue, httpMethod != RequestMethod.head.rawValue {
-            command.append("-x \(httpMethod)")
+            command.append(" -x \(httpMethod)")
         }
 
         allHTTPHeaderFields?
@@ -22,13 +22,13 @@ extension URLRequest {
                 $0.key != RequestHeader.cookie.key
             }
             .forEach {
-                command.append("-H '\($0.key): \($0.value)'")
+                command.append(" -H '\($0.key): \($0.value)'")
             }
 
         if let httpBody, let body = String(data: httpBody, encoding: .utf8) {
-            command.append("-d \(body)")
+            command.append(" -d \(body)")
         }
 
-        return command.joined(separator: "\\\n\t")
+        return command.joined()
     }
 }
