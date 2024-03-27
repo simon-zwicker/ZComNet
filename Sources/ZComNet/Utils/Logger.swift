@@ -22,9 +22,7 @@ final class Logger {
         self.request = request
 
         self.start = Date()
-        print("-------------------------------------------------------")
-        print("[\(currentTime())][ZComNet] - Logging Start")
-
+        print("--------------- [ZComNet] - Logging Start ---------------")
         logBasic()
     }
 
@@ -41,8 +39,7 @@ final class Logger {
 
         self.end = Date()
         print("[\(currentTime())][ZComNet][Call Duration]: \(getCallTime())")
-        print("[\(currentTime())][ZComNet] - Logging End")
-        print("-------------------------------------------------------")
+        print("---------------- [ZComNet] - Logging End ----------------")
     }
 
     // MARK: - Private Helpers
@@ -64,8 +61,8 @@ final class Logger {
 
     private func logUrl() {
         guard let method = request?.httpMethod, let url = request?.url else { return }
-        print("[\(currentTime())][ZComNet][RequestMethod]: \(method)")
-        print("[\(currentTime())][ZComNet][URL]: \(url.absoluteString)")
+        print(Colors.green + "[\(currentTime())][ZComNet][RequestMethod]: \(method)")
+        print("[\(currentTime())][ZComNet][URL]: \(url.absoluteString)" + Colors.reset)
     }
 
     private func logHeaders() {
