@@ -129,7 +129,7 @@ struct Request<T: Codable> {
 
 #### Requester
 ```swift
-import ZNetwork
+import ZComNet
 
 struct Requester {
 
