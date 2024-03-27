@@ -24,6 +24,9 @@ final class Logger {
         self.start = Date()
         print("--------------- [ZComNet] - Logging Start ---------------")
         logBasic()
+
+        guard level == .debugCurl else { return }
+        logCurl()
     }
 
     func log(_ response: URLResponse, data: Data) {
