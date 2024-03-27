@@ -17,7 +17,7 @@ public class ZComNet {
         ZComNetService.main.config(with: component, timeout: timeout)
     }
 
-    public func request<T: Codable>(_ endpoint: Endpoint, error: Codable.Type) async -> Result<T, Error> {
-        await ZComNetService.main.request(endpoint, error: error)
+    public func request<T: Codable>(_ endpoint: Endpoint, error: Codable.Type, image: RequestImage? = nil) async -> Result<T, Error> {
+        await ZComNetService.main.request(endpoint, error: error, image: image)
     }
 }
