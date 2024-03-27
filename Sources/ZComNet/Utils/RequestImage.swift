@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RequestImage {
+public struct RequestImage {
     let fileName: String
     let type: ImageType
     let data: Data
