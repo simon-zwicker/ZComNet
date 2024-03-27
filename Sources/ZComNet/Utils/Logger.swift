@@ -61,8 +61,8 @@ final class Logger {
 
     private func logUrl() {
         guard let method = request?.httpMethod, let url = request?.url else { return }
-        print(Colors.green + "[\(currentTime())][ZComNet][RequestMethod]: \(method)")
-        print("[\(currentTime())][ZComNet][URL]: \(url.absoluteString)" + Colors.reset)
+        print("[\(currentTime())][ZComNet][RequestMethod]: \(method)")
+        print("[\(currentTime())][ZComNet][URL]: \(url.absoluteString)")
     }
 
     private func logHeaders() {
