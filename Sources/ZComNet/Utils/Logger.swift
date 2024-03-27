@@ -70,8 +70,7 @@ final class Logger {
         guard let headerFields = request?.allHTTPHeaderFields else { return }
         print("[\(currentTime())][ZComNet][Headers]:")
         headerFields.forEach {
-            print("----- [Key]: \($0.key)")
-            print("----- [Value]: \($0.value)")
+            print("----- \($0.key): \($0.value)")
         }
     }
 
