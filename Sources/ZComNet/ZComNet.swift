@@ -12,7 +12,8 @@ public class ZComNet {
     }
 
     // MARK: - Initialization
-    public init(with component: URLComponents, timeout: TimeInterval? = nil) {
+    public init(with component: URLComponents, timeout: TimeInterval? = nil, loglevel: Loglevel = .none) {
+        self.loglevel = loglevel
         ZComNetService.main.config(with: component, timeout: timeout)
     }
 
