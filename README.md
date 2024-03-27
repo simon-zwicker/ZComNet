@@ -102,8 +102,7 @@ struct MyAPI {
 
     // MARK: - API
     var api: ZComNet {
-    	let api = ZComNet(with: components, loglevel: .debug)
-        return api
+		.init(with: components, loglevel: .debug)
     }
 }
 ```
@@ -119,12 +118,9 @@ MyAPI.shared.api.loglevel = .debug
 ```swift
 import ZComNet
 
-class Request<T: Codable> {
-    var endpoint: APIEndpoint?
-
-    func request() async -> Result<T, Error> {
-        guard let endpoint else { return .failure(ErrorType.invalidUrl) }
-        return await Network.shared.api.request(endpoint, error: ErrorObject.self)
+struct Request<T: Codable> {
+    func request(_ endpoint: APIEndpoint) async -> Result<T, Error> {
+        return await MyAPI.shared.api.request(endpoint, error: ErrorObject.self)
     }
 }
 ```
@@ -133,15 +129,13 @@ class Request<T: Codable> {
 
 #### Requester
 ```swift
-import Foundation
 import ZNetwork
 
-final class Requester {
+struct Requester {
 
-    static func request<T: Codable>(_ T: T.Type, endpoint: ApiEndpoints) async throws -> T {
-        let network = Request <T>()
-        network.endpoint = endpoint
-        let result = await network.request()
+    static func request<T: Codable>(_ T: T.Type, endpoint: APIEndpoint) async throws -> T {
+        let req = Request<T>()
+        let result = await req.request(endpoint)
 
         switch result {
         case .success(let responseItem): return responseItem
