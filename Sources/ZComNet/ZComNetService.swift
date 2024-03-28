@@ -25,7 +25,7 @@ final class ZComNetService {
         self.components = components
     }
 
-    func request<T: Codable>(_ endpoint: Endpoint, error: Codable.Type, image: RequestImage? = nil) async -> Result<T, Error> {
+    func request<T: Codable>(_ endpoint: Endpoint, error: Codable.Type, image: ZComNet.RequestImage? = nil) async -> Result<T, Error> {
 
         guard let request = try? await createRequest(for: endpoint, image: image) else {
             return .failure(ErrorType.invalidUrl)
@@ -65,7 +65,7 @@ final class ZComNetService {
 // MARK: - Extension
 extension ZComNetService {
 
-    private func createRequest(for endpoint: Endpoint, image: RequestImage? = nil) async throws -> URLRequest {
+    private func createRequest(for endpoint: Endpoint, image: ZComNet.RequestImage? = nil) async throws -> URLRequest {
         /// Create Request Object
         guard let url = try? await getUrl(for: endpoint) else { throw ErrorType.invalidUrl }
         var request = URLRequest(url: url)
@@ -111,7 +111,7 @@ extension ZComNetService {
         return try? JSONSerialization.data(withJSONObject: params, options: [])
     }
 
-    private func encodeImage(_ image: RequestImage) -> Data {
+    private func encodeImage(_ image: ZComNet.RequestImage) -> Data {
         var fullData: Data = .init()
 
         if let data = ImageEncoder.boundary(image.boundary).data {

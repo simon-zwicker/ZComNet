@@ -11,6 +11,23 @@ public class ZComNet {
         set { ZComNet.logger.level = newValue }
     }
 
+    public struct RequestImage {
+        let fileName: String
+        let type: ImageType
+        let data: Data
+        let parameter: String
+        let boundary: String
+
+        public init(fileName: String, type: ImageType, data: Data, parameter: String, boundary: String) {
+            self.fileName = fileName
+            self.type = type
+            self.data = data
+            self.parameter = parameter
+            self.boundary = boundary
+        }
+    }
+
+
     // MARK: - Initialization
     public init(with component: URLComponents, timeout: TimeInterval? = nil, loglevel: Loglevel = .none) {
         self.loglevel = loglevel
