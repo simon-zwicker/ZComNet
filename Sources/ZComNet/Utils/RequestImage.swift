@@ -14,7 +14,7 @@ public class RequestImage {
     let parameter: String
     let boundary: String
 
-    init(fileName: String, type: ImageType, data: Data, parameter: String, boundary: String) {
+    public init(fileName: String, type: ImageType, data: Data, parameter: String, boundary: String) {
         self.fileName = fileName
         self.type = type
         self.data = data
