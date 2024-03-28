@@ -7,10 +7,18 @@
 
 import Foundation
 
-public struct RequestImage {
-    public let fileName: String
-    public let type: ImageType
-    public let data: Data
-    public let parameter: String
-    public let boundary: String
+public class RequestImage {
+    let fileName: String
+    let type: ImageType
+    let data: Data
+    let parameter: String
+    let boundary: String
+
+    init(fileName: String, type: ImageType, data: Data, parameter: String, boundary: String) {
+        self.fileName = fileName
+        self.type = type
+        self.data = data
+        self.parameter = parameter
+        self.boundary = boundary
+    }
 }
