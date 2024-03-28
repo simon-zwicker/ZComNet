@@ -8,6 +8,7 @@
 import Foundation
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 public class RequestImage {
     public let fileName: String
     public let type: ImageType
@@ -15,6 +16,8 @@ public class RequestImage {
     public let parameter: String
     public let boundary: String
 =======
+=======
+>>>>>>> 4404c63 (Fixed RequestImage implementation)
 public struct RequestImage {
     let fileName: String
     let type: ImageType
