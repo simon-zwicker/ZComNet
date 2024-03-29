@@ -12,5 +12,6 @@ public protocol Endpoint {
     var method: RequestMethod { get }
     var headers: [RequestHeader] { get }
     var parameters: [String: Any] { get }
+    var object: Codable? { get }
     var encoding: Encoding { get }
 }
