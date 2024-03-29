@@ -71,8 +71,8 @@ extension ZComNetService {
         var request = URLRequest(url: url)
 
         /// Request Body
-        if endpoint.encoding == .json, endpoint.parameters.isNotEmpty {
-            request.httpBody = encodeJson(params: endpoint.parameters)
+        if endpoint.encoding == .json, let object = endpoint.object {
+            request.httpBody = encodeJson(object)
         } else if endpoint.encoding == .image, let image {
             request.httpBody = encodeImage(image)
         }
@@ -91,7 +91,7 @@ extension ZComNetService {
         guard var components else { throw ErrorType.invalidUrl }
 
         if endpoint.parameters.isNotEmpty, endpoint.encoding == .url {
-            components.queryItems = encodeUrl(params: endpoint.parameters)
+            components.queryItems = encodeUrl(endpoint.parameters)
         }
 
         components.path += endpoint.path
@@ -103,12 +103,12 @@ extension ZComNetService {
         return url
     }
 
-    private func encodeUrl(params: [String: Any]) -> [URLQueryItem] {
+    private func encodeUrl(_ params: [String: Any]) -> [URLQueryItem] {
         return params.map { URLQueryItem(name: $0.key, value: $0.value as? String) }
     }
 
-    private func encodeJson(params: [String: Any]) -> Data? {
-        return try? JSONSerialization.data(withJSONObject: params, options: [])
+    private func encodeJson(_ object: Codable) -> Data? {
+        return try? JSONSerialization.data(withJSONObject: object)
     }
 
     private func encodeImage(_ image: ZComNet.RequestImage) -> Data {
