@@ -6,9 +6,16 @@ public class ZComNet {
 
     // MARK: - Properties
     static let logger = Logger()
+    static var isInsecure: Bool = false
+
     public var loglevel: Loglevel {
         get { return ZComNet.logger.level }
         set { ZComNet.logger.level = newValue }
+    }
+
+    public var insecure: Bool {
+        get { ZComNet.isInsecure }
+        set { ZComNet.isInsecure = newValue }
     }
 
     public struct RequestImage {

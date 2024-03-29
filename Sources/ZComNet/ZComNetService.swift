@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-final class ZComNetService {
+final class ZComNetService: NSObject {
 
     // MARK: - Properties
     static let main = ZComNetService()
@@ -30,7 +30,7 @@ final class ZComNetService {
         guard let request = try? await createRequest(for: endpoint, image: image) else {
             return .failure(ErrorType.invalidUrl)
         }
-        let session = URLSession.shared
+        let session = URLSession(configuration: .default, delegate: self, delegateQueue: OperationQueue.main)
 
         do {
             let (data, response) = try await session.data(for: request, delegate: nil)
@@ -60,6 +60,19 @@ final class ZComNetService {
             return .failure(ErrorType.unknown)
         }
     }
+}
+
+// MARK: - URLSessionDelegate
+extension ZComNetService: URLSessionDelegate {
+    func urlSession(_ session: URLSession, didReceive challenge: URLAuthenticationChallenge, completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+            if challenge.protectionSpace.serverTrust == nil {
+                completionHandler(.useCredential, nil)
+            } else {
+                guard ZComNet.isInsecure, let trust: SecTrust = challenge.protectionSpace.serverTrust else { return }
+                let credential = URLCredential(trust: trust)
+                completionHandler(.useCredential, credential)
+            }
+        }
 }
 
 // MARK: - Extension
