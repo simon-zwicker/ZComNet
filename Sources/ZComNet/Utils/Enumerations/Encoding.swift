@@ -8,5 +8,6 @@
 public enum Encoding {
     case url
     case json
+    case jsonUrl
     case image
 }
