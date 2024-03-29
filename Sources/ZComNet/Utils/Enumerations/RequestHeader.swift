@@ -11,6 +11,7 @@ public enum RequestHeader: Equatable {
     case authBearer(String)
     case formData(String)
     case encoding
+    case custom(key: String, value: String)
 }
 
 extension RequestHeader {
@@ -20,6 +21,7 @@ extension RequestHeader {
         case .contentJson, .formData: "Content-Type"
         case .authBearer: "Authorization"
         case .encoding: "Content-Transfer-Encoding"
+        case .custom(let key, _): key
         }
     }
 
@@ -29,6 +31,7 @@ extension RequestHeader {
         case .authBearer(let authToken): "Bearer \(authToken)"
         case .formData(let uuid): "multipart/form-data; boundary=\(uuid)"
         case .encoding: "base64"
+        case .custom(_, let value): value
         default: ""
         }
     }
